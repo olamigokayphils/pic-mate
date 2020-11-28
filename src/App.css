@@ -22,3 +22,20 @@
   border-radius: 15px;
   box-shadow: 0 0 8px 4px gray;
 }
+
+/** IMAGE MODAL */
+.imageContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+}
+
+.imageContainer > button {
+  width: 200px;
+  margin: auto;
+  padding: 10px;
+  border: none;
+  font-size: large;
+  border-radius: 3px;
+  box-shadow: 0 0 8px 2px grey;
+}

@@ -1,12 +1,26 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, Fragment } from "react"
 import './App.css';
 import axios from "axios"
+import Modal from "react-modal"
 
+const customStyles = {
+  content : {
+    top : '50%',
+    left : '50%',
+    right : 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)'
+  }
+};
 
+Modal.setAppElement('#root')
 
 function App() {
   const [images, setImages] = useState([])
   const [imageLoaded, setImageLoaded] = useState(false)
+  const [modalOpen, setModalOpen] = useState(false)
+  const [imageInView, setImageInView] = useState({src: {landscape: ""}})
 
   useEffect(() => {
     getImages()
@@ -33,6 +47,14 @@ function App() {
       })
   }
   return (
+    <Fragment>
+      <Modal style={customStyles} isOpen={modalOpen}>
+        <div className="imageContainer">
+        {imageInView && <img src={imageInView.src.landscape}/>}
+
+      <button onClick={() => setModalOpen(false)}>Close</button>
+      </div>
+      </Modal>
     <div className="main">
       <h3 className="intro-text">Welcome to Pic-Mate</h3>
       {/** If image is not loaded */}
@@ -40,14 +62,20 @@ function App() {
 
     <div className="image-container">
       {/** If image is Loaded; Render ++ */}
-      {images.map((image) => {
+      {images.map((image, index) => {
         return (
-            <img className="image" src={image.src.medium}/>
+            <img key={index} onClick={
+              () => {
+              setImageInView(image);
+              setModalOpen(true)
+            }} 
+            className="image" src={image.src.medium}/>
         )
       })}
       </div>
 
     </div>
+    </Fragment>
   );
 }
 
